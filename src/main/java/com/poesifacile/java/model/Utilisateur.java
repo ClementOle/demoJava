@@ -11,16 +11,18 @@ public class Utilisateur {
 	private Integer id;
 	private String pseudo;
 	private String password;
-	@OneToMany
-	@JoinColumn(name = "id_sauvegarde")
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_joueur")
 	private List<Historique> Historique;
 
 	public Utilisateur() {
 	}
 
-	public Utilisateur(String pseudo, String password) {
+	public Utilisateur(Integer id, String pseudo, String password, List<com.poesifacile.java.model.Historique> historique) {
+		this.id = id;
 		this.pseudo = pseudo;
 		this.password = password;
+		Historique = historique;
 	}
 
 	public Integer getId() {
@@ -47,19 +49,28 @@ public class Utilisateur {
 		this.password = password;
 	}
 
+	public List<com.poesifacile.java.model.Historique> getHistorique() {
+		return Historique;
+	}
+
+	public void setHistorique(List<com.poesifacile.java.model.Historique> historique) {
+		Historique = historique;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof Utilisateur)) return false;
 		Utilisateur that = (Utilisateur) o;
-		return id.equals(that.id) &&
-				pseudo.equals(that.pseudo) &&
-				password.equals(that.password);
+		return Objects.equals(id, that.id) &&
+				Objects.equals(pseudo, that.pseudo) &&
+				Objects.equals(password, that.password) &&
+				Objects.equals(Historique, that.Historique);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, pseudo, password);
+		return Objects.hash(id, pseudo, password, Historique);
 	}
 
 	@Override
@@ -68,7 +79,7 @@ public class Utilisateur {
 				"id=" + id +
 				", pseudo='" + pseudo + '\'' +
 				", password='" + password + '\'' +
+				", Historique=" + Historique +
 				'}';
 	}
-	
 }
