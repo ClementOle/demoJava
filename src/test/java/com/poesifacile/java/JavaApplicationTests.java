@@ -1,5 +1,6 @@
 package com.poesifacile.java;
 
+import com.poesifacile.java.repository.HistoriqueRepository;
 import com.poesifacile.java.repository.UtilisateurRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,14 +16,18 @@ public class JavaApplicationTests {
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
 
+	@Autowired
+	private HistoriqueRepository historiqueRepository;
+
 	@Test
 	public void testConnexionBdd() {
 		//Given
 
 		//When
 		long nbUtilisateurs = utilisateurRepository.count();
+		long nbHistorique = historiqueRepository.count();
 		//Then
-		Assert.assertTrue(nbUtilisateurs > 0);
+		Assert.assertTrue(nbUtilisateurs > 0 && nbHistorique > 0);
 	}
 
 }

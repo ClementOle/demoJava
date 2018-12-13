@@ -1,7 +1,7 @@
 package com.poesifacile.java.model;
 
-
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,6 +11,9 @@ public class Utilisateur {
 	private Integer id;
 	private String pseudo;
 	private String password;
+	@OneToMany
+	@JoinColumn(name = "id_sauvegarde")
+	private List<Historique> Historique;
 
 	public Utilisateur() {
 	}
@@ -67,8 +70,4 @@ public class Utilisateur {
 				", password='" + password + '\'' +
 				'}';
 	}
-
-
 }
-
-

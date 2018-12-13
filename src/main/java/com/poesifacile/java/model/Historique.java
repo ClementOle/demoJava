@@ -1,10 +1,7 @@
 package com.poesifacile.java.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -13,15 +10,17 @@ public class Historique {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id_sauvegarde;
 	private Integer salle;
-	private Integer id_joueur;
+	@ManyToOne
+	@JoinColumn(name = "id")
+	private Utilisateur utilisateur;
 	private Float score;
 
 	public Historique() {
 	}
 
-	public Historique(Integer salle, Integer id_joueur, Float score) {
+	public Historique(Integer salle, Utilisateur utilisateur, Float score) {
 		this.salle = salle;
-		this.id_joueur = id_joueur;
+		this.utilisateur = utilisateur;
 		this.score = score;
 	}
 
@@ -41,12 +40,12 @@ public class Historique {
 		this.salle = salle;
 	}
 
-	public Integer getId_joueur() {
-		return id_joueur;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
 
-	public void setId_joueur(Integer id_joueur) {
-		this.id_joueur = id_joueur;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
 	public Float getScore() {
@@ -64,13 +63,13 @@ public class Historique {
 		Historique that = (Historique) o;
 		return Objects.equals(id_sauvegarde, that.id_sauvegarde) &&
 				Objects.equals(salle, that.salle) &&
-				Objects.equals(id_joueur, that.id_joueur) &&
+				Objects.equals(utilisateur, that.utilisateur) &&
 				Objects.equals(score, that.score);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id_sauvegarde, salle, id_joueur, score);
+		return Objects.hash(id_sauvegarde, salle, utilisateur, score);
 	}
 
 	@Override
@@ -78,9 +77,8 @@ public class Historique {
 		return "Historique{" +
 				"id_sauvegarde=" + id_sauvegarde +
 				", salle=" + salle +
-				", id_joueur=" + id_joueur +
+				", utilisateur=" + utilisateur +
 				", score=" + score +
 				'}';
 	}
-
 }
