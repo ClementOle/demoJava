@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface UtilisateurRepository extends CrudRepository<Utilisateur, Integer> {
 	List<Utilisateur> findByPseudo(String pseudo);
+	//List<Utilisateur> findAllBy();
+
 }
