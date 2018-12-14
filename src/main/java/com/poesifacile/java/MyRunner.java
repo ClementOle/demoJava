@@ -2,12 +2,12 @@ package com.poesifacile.java;
 
 import com.poesifacile.java.model.Historique;
 import com.poesifacile.java.model.Utilisateur;
-import com.poesifacile.java.repository.HistoriqueRepository;
 import com.poesifacile.java.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,29 +15,72 @@ import java.util.List;
 public class MyRunner implements CommandLineRunner {
 
 
-	@Autowired
-	HistoriqueRepository historiqueRepository;
-	@Autowired
-	UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private
+    UtilisateurRepository utilisateurRepository;
 
-	@Override
-	public void run(String... strings) {
+    @Override
+    public void run(String... strings) {
+        recupMoyenne();
+        trieScore();
+    }
 
-		Historique h = historiqueRepository.findOne(13);
-		Utilisateur u = utilisateurRepository.findOne(h.getId_joueur());
-		System.out.println(h.toString());
-		System.out.println(u.toString());
+    private void trieScore() {
+        ArrayList<Integer> idWoF = new ArrayList<>();
+        List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
 
-		Utilisateur u2 = utilisateurRepository.findOne(1);
-		List<Historique> h2 = u2.getHistorique();
+        float max = 0;
+        int idMax = -1;
+        int indexMax = -1;
+        boolean trier = false;
+        int index = 0;
+        while (!trier) {
+            for (Utilisateur utilisateur :
+                    listUtilisateur) {
+                if (utilisateur.getMoyenne() >= max) {
+                    max = utilisateur.getMoyenne();
+                    idMax = utilisateur.getId();
+                    indexMax = index;
+                }
+                index++;
+            }
+            listUtilisateur.remove(indexMax);
+            idWoF.add(idMax);
+            indexMax = -1;
+            index = 0;
+            max = 0;
+            if (listUtilisateur.isEmpty()) {
+                trier = true;
+            }
+        }
 
-		System.out.println();
-		System.out.println(u2.toString());
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        for (Integer id :
+                idWoF) {
+            System.out.println("Nom : " + utilisateurRepository.findOne(id).getPseudo());
+            System.out.println("Note : " + utilisateurRepository.findOne(id).getMoyenne());
+        }
+    }
 
-		for (Historique histo : h2) {
-			System.out.println(histo.toString());
-		}
-	}
+    private void recupMoyenne() {
 
+        List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
+
+        Float somme = 0F;
+        Float moyenne;
+
+        for (Utilisateur utilisateur :
+                listUtilisateur) {
+            List<Historique> listHistorique = utilisateur.getHistorique();
+
+            for (Historique historique :
+                    listHistorique) {
+                somme += historique.getScore();
+            }
+            moyenne = somme / 5;
+
+            utilisateur.setMoyenne(moyenne);
+            utilisateurRepository.save(utilisateur);
+            somme = 0F;
+        }
+    }
 }
