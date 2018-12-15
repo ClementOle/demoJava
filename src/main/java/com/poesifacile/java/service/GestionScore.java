@@ -13,9 +13,16 @@ public class GestionScore {
     @Autowired
     UtilisateurRepository utilisateurRepository;
 
-    public void trieScore() {
-        ArrayList<Integer> idWoF = new ArrayList<>();
+    public GestionScore() {
+    }
+
+    public GestionScore(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
+
+    public ArrayList<Utilisateur> trieScore() {
         List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
+        ArrayList<Utilisateur> wOF = new ArrayList<>();
 
         float max = 0;
         int idMax = -1;
@@ -33,7 +40,7 @@ public class GestionScore {
                 index++;
             }
             listUtilisateur.remove(indexMax);
-            idWoF.add(idMax);
+            wOF.add(utilisateurRepository.findOne(idMax));
             indexMax = -1;
             index = 0;
             max = 0;
@@ -42,14 +49,10 @@ public class GestionScore {
             }
         }
 
-        for (Integer id :
-                idWoF) {
-            System.out.println("Nom : " + utilisateurRepository.findOne(id).getPseudo());
-            System.out.println("Note : " + utilisateurRepository.findOne(id).getMoyenne());
-        }
+        return wOF;
     }
 
-    public void recupMoyenne() {
+    public boolean recupMoyenne() {
 
         List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
 
@@ -70,6 +73,7 @@ public class GestionScore {
             utilisateurRepository.save(utilisateur);
             somme = 0F;
         }
+        return true;
     }
 }
 
