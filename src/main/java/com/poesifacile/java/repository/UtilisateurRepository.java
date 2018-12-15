@@ -1,10 +1,8 @@
 package com.poesifacile.java.repository;
 
 import com.poesifacile.java.model.Utilisateur;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
 
-public interface UtilisateurRepository extends CrudRepository<Utilisateur, Integer> {
-	List<Utilisateur> findByPseudo(String pseudo);
+public interface UtilisateurRepository extends PagingAndSortingRepository<Utilisateur, Integer> {
 }

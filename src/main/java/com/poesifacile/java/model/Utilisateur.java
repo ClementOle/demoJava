@@ -6,68 +6,95 @@ import java.util.Objects;
 
 @Entity
 public class Utilisateur {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
-	private String pseudo;
-	private String password;
-	@OneToMany
-	@JoinColumn(name = "id_sauvegarde")
-	private List<Historique> Historique;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    private String pseudo;
+    private String password;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_joueur")
+    private List<Historique> Historique;
 
-	public Utilisateur() {
-	}
+    private Float moyenne;
 
-	public Utilisateur(String pseudo, String password) {
-		this.pseudo = pseudo;
-		this.password = password;
-	}
+    public Utilisateur() {
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Utilisateur(Integer id, String pseudo, String password, List<com.poesifacile.java.model.Historique> historique, Float moyenne) {
+        this.id = id;
+        this.pseudo = pseudo;
+        this.password = password;
+        Historique = historique;
+        this.moyenne = moyenne;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getPseudo() {
-		return pseudo;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setPseudo(String pseudo) {
-		this.pseudo = pseudo;
-	}
+    public String getPseudo() {
+        return pseudo;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Utilisateur that = (Utilisateur) o;
-		return id.equals(that.id) &&
-				pseudo.equals(that.pseudo) &&
-				password.equals(that.password);
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, pseudo, password);
-	}
+    public List<com.poesifacile.java.model.Historique> getHistorique() {
+        return Historique;
+    }
 
-	@Override
-	public String toString() {
-		return "Utilisateur{" +
-				"id=" + id +
-				", pseudo='" + pseudo + '\'' +
-				", password='" + password + '\'' +
-				'}';
-	}
+    public void setHistorique(List<com.poesifacile.java.model.Historique> historique) {
+        Historique = historique;
+    }
+
+    public Float getMoyenne() {
+        return moyenne;
+    }
+
+    public void setMoyenne(Float moyenne) {
+        this.moyenne = moyenne;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Utilisateur)) return false;
+        Utilisateur that = (Utilisateur) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(pseudo, that.pseudo) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(Historique, that.Historique) &&
+                Objects.equals(moyenne, that.moyenne);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, pseudo, password, Historique, moyenne);
+    }
+
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "id=" + id +
+                ", pseudo='" + pseudo + '\'' +
+                ", password='" + password + '\'' +
+                ", Historique=" + Historique +
+                ", moyenne=" + moyenne +
+                '}';
+    }
+
+
 }
