@@ -11,111 +11,111 @@ import java.util.Objects;
 
 public class UtilisateurService {
 
-    @Autowired
-    UtilisateurRepository utilisateurRepository;
+	@Autowired
+	UtilisateurRepository utilisateurRepository;
 
-    private ArrayList<Utilisateur> wallOfFame = new ArrayList<>();
+	private ArrayList<Utilisateur> wallOfFame = new ArrayList<>();
 
-    public UtilisateurService() {
-    }
+	public UtilisateurService() {
+	}
 
-    public UtilisateurService(UtilisateurRepository utilisateurRepository, ArrayList<Utilisateur> wallOfFame) {
-        this.utilisateurRepository = utilisateurRepository;
-        this.wallOfFame = wallOfFame;
-    }
+	public UtilisateurService(UtilisateurRepository utilisateurRepository, ArrayList<Utilisateur> wallOfFame) {
+		this.utilisateurRepository = utilisateurRepository;
+		this.wallOfFame = wallOfFame;
+	}
 
-    public UtilisateurRepository getUtilisateurRepository() {
-        return utilisateurRepository;
-    }
+	public UtilisateurRepository getUtilisateurRepository() {
+		return utilisateurRepository;
+	}
 
-    public void setUtilisateurRepository(UtilisateurRepository utilisateurRepository) {
-        this.utilisateurRepository = utilisateurRepository;
-    }
+	public void setUtilisateurRepository(UtilisateurRepository utilisateurRepository) {
+		this.utilisateurRepository = utilisateurRepository;
+	}
 
-    public ArrayList<Utilisateur> getWallOfFame() {
-        return wallOfFame;
-    }
+	public ArrayList<Utilisateur> getWallOfFame() {
+		return wallOfFame;
+	}
 
-    public void setWallOfFame(ArrayList<Utilisateur> wallOfFame) {
-        this.wallOfFame = wallOfFame;
-    }
+	public void setWallOfFame(ArrayList<Utilisateur> wallOfFame) {
+		this.wallOfFame = wallOfFame;
+	}
 
-    public ArrayList<Utilisateur> trieScore() {
-        List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
-        ArrayList<Utilisateur> wOF = new ArrayList<>();
+	public ArrayList<Utilisateur> trieScore() {
+		List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
+		ArrayList<Utilisateur> wOF = new ArrayList<>();
 
-        float max = 0;
-        int idMax = -1;
-        int indexMax = -1;
-        boolean trier = false;
-        int index = 0;
-        while (!trier) {
-            for (Utilisateur utilisateur :
-                    listUtilisateur) {
-                if (utilisateur.getMoyenne() >= max) {
-                    max = utilisateur.getMoyenne();
-                    idMax = utilisateur.getId();
-                    indexMax = index;
-                }
-                index++;
-            }
-            listUtilisateur.remove(indexMax);
-            wOF.add(utilisateurRepository.findOne(idMax));
-            indexMax = -1;
-            index = 0;
-            max = 0;
-            if (listUtilisateur.isEmpty()) {
-                trier = true;
-            }
-        }
+		float max = 0;
+		int idMax = -1;
+		int indexMax = -1;
+		boolean trier = false;
+		int index = 0;
+		while (!trier) {
+			for (Utilisateur utilisateur :
+					listUtilisateur) {
+				if (utilisateur.getMoyenne() >= max) {
+					max = utilisateur.getMoyenne();
+					idMax = utilisateur.getId();
+					indexMax = index;
+				}
+				index++;
+			}
+			listUtilisateur.remove(indexMax);
+			wOF.add(utilisateurRepository.findOne(idMax));
+			indexMax = -1;
+			index = 0;
+			max = 0;
+			if (listUtilisateur.isEmpty()) {
+				trier = true;
+			}
+		}
 
-        return wOF;
-    }
+		return wOF;
+	}
 
-    public boolean recupMoyenne() {
+	public boolean recupMoyenne() {
 
-        List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
+		List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
 
-        Float somme = 0F;
-        Float moyenne;
+		Float somme = 0F;
+		Float moyenne;
 
-        for (Utilisateur utilisateur :
-                listUtilisateur) {
-            List<Historique> listHistorique = utilisateur.getHistorique();
+		for (Utilisateur utilisateur :
+				listUtilisateur) {
+			List<Historique> listHistorique = utilisateur.getHistorique();
 
-            for (Historique historique :
-                    listHistorique) {
-                somme += historique.getScore();
-            }
-            moyenne = somme / 5;
+			for (Historique historique :
+					listHistorique) {
+				somme += historique.getScore();
+			}
+			moyenne = somme / 5;
 
-            utilisateur.setMoyenne(moyenne);
-            utilisateurRepository.save(utilisateur);
-            somme = 0F;
-        }
-        return true;
-    }
+			utilisateur.setMoyenne(moyenne);
+			utilisateurRepository.save(utilisateur);
+			somme = 0F;
+		}
+		return true;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof UtilisateurService)) return false;
-        UtilisateurService that = (UtilisateurService) o;
-        return Objects.equals(utilisateurRepository, that.utilisateurRepository) &&
-                Objects.equals(wallOfFame, that.wallOfFame);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof UtilisateurService)) return false;
+		UtilisateurService that = (UtilisateurService) o;
+		return Objects.equals(utilisateurRepository, that.utilisateurRepository) &&
+				Objects.equals(wallOfFame, that.wallOfFame);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(utilisateurRepository, wallOfFame);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(utilisateurRepository, wallOfFame);
+	}
 
-    @Override
-    public String toString() {
-        return "UtilisateurService{" +
-                "utilisateurRepository=" + utilisateurRepository +
-                ", wallOfFame=" + wallOfFame +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "UtilisateurService{" +
+				"utilisateurRepository=" + utilisateurRepository +
+				", wallOfFame=" + wallOfFame +
+				'}';
+	}
 }
 
