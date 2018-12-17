@@ -15,12 +15,18 @@ public class UtilisateurController {
 	private
 	UtilisateurRepository utilisateurRepository;
 
+	//Récupération du wall of fame
+
 	@RequestMapping("/wallOfFame")
 	public ArrayList<Utilisateur> wOF() {
 		UtilisateurService utilisateurService = new UtilisateurService(utilisateurRepository, null);
 		utilisateurService.setWallOfFame(utilisateurService.trieScore());
 		return utilisateurService.getWallOfFame();
 	}
+
+
+	//Récupération de la liste des moyennes
+	//Qui permet de mettre a jour la case moyenne dans la base de donnée
 
 	@RequestMapping("/updateDB")
 	public boolean updateDB() {
