@@ -40,6 +40,9 @@ public class UtilisateurService {
 		this.wallOfFame = wallOfFame;
 	}
 
+
+	//Trie les utilisateur en fonction de leur moyenne
+	//La fonction renvoie un tableau contenant les utilisateurs trié de la meilleure note à la moins bonne
 	public ArrayList<Utilisateur> trieScore() {
 		List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
 		ArrayList<Utilisateur> wOF = new ArrayList<>();
@@ -64,13 +67,13 @@ public class UtilisateurService {
 			indexMax = -1;
 			index = 0;
 			max = 0;
-			if (listUtilisateur.isEmpty()) {
+			if (listUtilisateur.isEmpty())
 				trier = true;
-			}
 		}
-
 		return wOF;
 	}
+
+	//Fonction qui calcul la moyenne de chaque utilisateur et l'enregistre dans la base de donnée dans la case moyenne
 
 	public boolean recupMoyenne() {
 
