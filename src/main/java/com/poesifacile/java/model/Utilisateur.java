@@ -14,7 +14,6 @@ public class Utilisateur {
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_joueur")
 	private List<Historique> Historique;
-
 	private Float moyenne;
 
 	public Utilisateur() {
