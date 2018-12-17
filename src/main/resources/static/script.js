@@ -1,14 +1,17 @@
 $(document).ready(function () {
     $.get("http://localhost:8088/wallOfFame", function (data) {
+        //Récupération du wallOfFame et stockage dans data
         let i = 0;
         data.forEach(function (user) {
             i++;
-            console.log(user.pseudo);
+            //Création d'une ligne dans le tableau pour chaque valeur du wall of fame
             insertionTableau(user.moyenne, user.pseudo, i);
         });
 
     });
 });
+
+//Fonction permettant de créer une ligne dans le tableau
 
 function insertionTableau(nom, note, i) {
     const table = document.querySelector('.tableau');
