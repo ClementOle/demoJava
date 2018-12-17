@@ -7,17 +7,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class GestionScore {
+public class UtilisateurService {
 
     @Autowired
     UtilisateurRepository utilisateurRepository;
 
-    public GestionScore() {
+    private ArrayList<Utilisateur> wallOfFame = new ArrayList<>();
+
+    public UtilisateurService() {
     }
 
-    public GestionScore(UtilisateurRepository utilisateurRepository) {
+    public UtilisateurService(UtilisateurRepository utilisateurRepository, ArrayList<Utilisateur> wallOfFame) {
         this.utilisateurRepository = utilisateurRepository;
+        this.wallOfFame = wallOfFame;
+    }
+
+    public UtilisateurRepository getUtilisateurRepository() {
+        return utilisateurRepository;
+    }
+
+    public void setUtilisateurRepository(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
+
+    public ArrayList<Utilisateur> getWallOfFame() {
+        return wallOfFame;
+    }
+
+    public void setWallOfFame(ArrayList<Utilisateur> wallOfFame) {
+        this.wallOfFame = wallOfFame;
     }
 
     public ArrayList<Utilisateur> trieScore() {
@@ -74,6 +94,28 @@ public class GestionScore {
             somme = 0F;
         }
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UtilisateurService)) return false;
+        UtilisateurService that = (UtilisateurService) o;
+        return Objects.equals(utilisateurRepository, that.utilisateurRepository) &&
+                Objects.equals(wallOfFame, that.wallOfFame);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(utilisateurRepository, wallOfFame);
+    }
+
+    @Override
+    public String toString() {
+        return "UtilisateurService{" +
+                "utilisateurRepository=" + utilisateurRepository +
+                ", wallOfFame=" + wallOfFame +
+                '}';
     }
 }
 
